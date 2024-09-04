@@ -13,7 +13,7 @@ class Product{
 
 
     // Constructor to initiate properties :
-    public function __construct(int $id, sting $name, array $photos, int $price, string $description, int $quantity, Datetime $createdAt, Datetime $updatedAt){
+    public function __construct(int $id, string $name, array $photos, int $price, string $description, int $quantity, Datetime $createdAt, Datetime $updatedAt){
         $this->id = $id;
         $this->name = $name;
         $this->photos = $photos;
@@ -94,7 +94,25 @@ class Product{
 
 } // Class Product closed
 
-// Test de la classe Product
-$product = new Product(1, "Laptop", ["photo1.jpg", "photo2.jpg"], 1500, "A high-performance laptop", 10, new DateTime('now'), new DateTime('now'));
+// Class Product test
+$product = new Product(1, "Laptop", ["photoLaptop.jpg"], 1500, "A high-performance laptop", 10, new DateTime('now'), new DateTime('now'));
+
+// Use of getters
+var_dump($product->getId());
+var_dump($product->getName());
+var_dump($product->getPhotos());
+var_dump($product->getPrice());
+var_dump($product->getDescription());
+var_dump($product->getQuantity());
+var_dump($product->getCreatedAt());
+var_dump($product->getUpdatedAt());
+
+// Use of setters
+$product->setPrice(1200);
+$product->setQuantity(9);
+
+// Modifications checking :
+var_dump($product->getPrice());
+var_dump($product->getQuantity())
 
 ?>
