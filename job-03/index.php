@@ -1,5 +1,7 @@
 <?php
 
+// JOB-03 + JOB-03.1
+
 // Class Product :
 class Product{
     // Properties :
@@ -22,8 +24,8 @@ class Product{
         $this->price = $price;
         $this-> description = $description;
         $this->quantity = $quantity;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
+        $this->createdAt = $createdAt ?? new DateTime();
+        $this->updatedAt = $updatedAt ?? new DateTime();
         $this->category_id = $category_id;
     } // Constructor closed
 
@@ -99,7 +101,7 @@ class Product{
         $this->updatedAt = $updatedAt;
     }
 
-    public function setCategoryid(int $category_id){
+    public function setCategoryId(int $category_id){
         $this->category_id = $category_id;
     }
 
@@ -150,6 +152,7 @@ class Category{
 
 
 
+
     // Setters :
     public function setId(int $id): void{
         $this->id = $id;
@@ -171,6 +174,7 @@ class Category{
         $this->updatedAt = $updatedAt;
     }
 
+
 } // Class Category closed
 
 
@@ -186,6 +190,7 @@ $product2 = new Product();
 
 // Use of getters
 // $product
+echo "Product 1:<br>";
 var_dump($product->getId());echo '<br>';
 var_dump($product->getName());echo '<br>';
 var_dump($product->getPhotos());echo '<br>';
@@ -194,7 +199,7 @@ var_dump($product->getDescription());echo '<br>';
 var_dump($product->getQuantity());echo '<br>';
 var_dump($product->getCreatedAt());echo '<br>';
 var_dump($product->getUpdatedAt());echo '<br>';
-var_dump($product->getCategoryid());echo '<br><br>';
+var_dump($product->getCategoryId());echo '<br><br>';
 
 // Use of setters
 // $product
@@ -204,11 +209,37 @@ $product->setCategoryId(2);
 
 // Modifications checking :
 // $product
-echo "changes:<br>";
+echo "changes product1:<br>";
 var_dump($product->getPrice());echo '<br>';
 var_dump($product->getQuantity());echo '<br>';
 var_dump($product->getCategoryId()); echo '<br><br><br>';
 
 // $product2 :
+echo "Product 2:<br>";
+var_dump($product2->getId());echo '<br>';
+var_dump($product2->getName());echo '<br>';
+var_dump($product2->getPhotos());echo '<br>';
+var_dump($product2->getPrice());echo '<br>';
+var_dump($product2->getDescription());echo '<br>';
+var_dump($product2->getQuantity());echo '<br>';
+var_dump($product2->getCreatedAt());echo '<br>';
+var_dump($product2->getUpdatedAt());echo '<br>';
+var_dump($product2->getCategoryId());echo '<br><br>';
+
+// Use of setters
+// $product2
+$product2->setName('PS5');
+$product2->setPrice(40);
+$product2->setQuantity(3);
+$product2->setCategoryId(5);
+
+// Modifications checking :
+// $product
+echo "changes product2:<br>";
+var_dump($product2->getName());echo '<br>';
+var_dump($product2->getPrice());echo '<br>';
+var_dump($product2->getQuantity());echo '<br>';
+var_dump($product2->getCategoryId()); echo '<br><br><br>';
+
 
 ?>
