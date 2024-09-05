@@ -31,7 +31,7 @@ class Product{
 
 
     // Constructor to initiate properties :
-    public function __construct(int $id = 0, string $name = '', array $photos = [], int $price = 0, string $description = '', int $quantity = 0, Datetime $createdAt = null, Datetime $updatedAt = null, int $category_id = 0){
+    public function __construct(int $id = 0, string $name = '', array $photos = [], int $price = 0, string $description = '', int $quantity = 0, Datetime $createdAt = null, Datetime $updatedAt = null, int $category_id = 0, ?Category $category = null){
         $this->id = $id;
         $this->name = $name;
         $this->photos = $photos;
@@ -41,6 +41,7 @@ class Product{
         $this->createdAt = $createdAt ?? new DateTime();
         $this->updatedAt = $updatedAt ?? new DateTime();
         $this->category_id = $category_id;
+        $this->category = $category;
     } // Constructor closed
 
 
@@ -90,7 +91,7 @@ class Product{
             $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
             $stmt->execute();
 
-            $categaryData = $stmt->fetch(PDO::FETCH_ASSOC);
+            $categoryData = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if($categoryData){
                 $this->category = new Category(
@@ -294,37 +295,45 @@ $stmt->execute();
 // Retrieve product data in the form of an associative array
 $productData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($productData) {
-    echo "Product successfully found !<br>";
-} else {
-    die("No products found with id $id.");
-}
-
-
 // Hydrate a new instance of the Product class with data from the database
 if ($productData) {
     $product = new Product(
         $productData['id'],
         $productData['name'],
         explode(',', $productData['photos']),
-        $productData['price'],
+        (int)$productData['price'],
         $productData['description'],
-        $productData['quantity'],
+        (int)$productData['quantity'],
         new DateTime($productData['createdAt']),
         new DateTime($productData['updatedAt']),
-        $productData['category_id']
+        (int)$productData['category_id']
     );
 
+    // Retrieve and display category information
+    $category = $product->getCategory();
+
+    if ($category) {
+        echo "Category ID: " . $category->getId() . "<br>";
+        echo "Category Name: " . $category->getName() . "<br>";
+        echo "Category Description: " . $category->getDescription() . "<br>";
+        echo "Category Created At: " . $category->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
+        echo "Category Updated At: " . $category->getUpdatedAt()->format('Y-m-d H:i:s') . "<br><br>";
+    } else {
+        echo "Category not found.<br>";
+    }
+
     // Viewing product data to verify everything is working
-    echo "ID du produit : " . $product->getId() . "<br>";
-    echo "Nom du produit : " . $product->getName() . "<br>";
-    echo "Photos du produit : " . implode(", ", $product->getPhotos()) . "<br>";
-    echo "Prix du produit : " . $product->getPrice() . "<br>";
-    echo "Description du produit : " . $product->getDescription() . "<br>";
-    echo "Quantité du produit : " . $product->getQuantity() . "<br>";
-    echo "Date de création : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
-    echo "Dernière mise à jour : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
-    echo "ID de la catégorie : " . $product->getCategoryId() . "<br>";
+    echo "Product ID : " . $product->getId() . "<br>";
+    echo "Product name : " . $product->getName() . "<br>";
+    echo "Product photos : " . implode(", ", $product->getPhotos()) . "<br>";
+    echo "Product price : " . $product->getPrice() . "<br>";
+    echo "Product description : " . $product->getDescription() . "<br>";
+    echo "Product quantity : " . $product->getQuantity() . "<br>";
+    echo "Product created at : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product updated at : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product category ID : " . $product->getCategoryId() . "<br>";
+} else {
+    die("No product found with the id ".$id);
 }
 ?>
 

@@ -289,15 +289,15 @@ if ($productData) {
     );
 
     // Viewing product data to verify everything is working
-    echo "ID du produit : " . $product->getId() . "<br>";
-    echo "Nom du produit : " . $product->getName() . "<br>";
-    echo "Photos du produit : " . implode(", ", $product->getPhotos()) . "<br>";
-    echo "Prix du produit : " . $product->getPrice() . "<br>";
-    echo "Description du produit : " . $product->getDescription() . "<br>";
-    echo "Quantité du produit : " . $product->getQuantity() . "<br>";
-    echo "Date de création : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
-    echo "Dernière mise à jour : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
-    echo "ID de la catégorie : " . $product->getCategoryId() . "<br>";
+    echo "Product ID : " . $product->getId() . "<br>";
+    echo "Product name : " . $product->getName() . "<br>";
+    echo "Product photos : " . implode(", ", $product->getPhotos()) . "<br>";
+    echo "Product price : " . $product->getPrice() . "<br>";
+    echo "Product description : " . $product->getDescription() . "<br>";
+    echo "Product quantity : " . $product->getQuantity() . "<br>";
+    echo "Product created at : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product updated at : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product category ID : " . $product->getCategoryId() . "<br>";
 }
 ?>
 
