@@ -27,6 +27,7 @@ class Product{
     private Datetime $createdAt;
     private Datetime $updatedAt;
     private int $category_id;
+    private ?Category $category = null; // New propertie to store category instance (here Category is an class defined to represent an entity of a category with sverals properties and methods)
 
 
     // Constructor to initiate properties :
@@ -78,6 +79,32 @@ class Product{
 
     public function getCategoryId(): int{
         return $this->category_id;
+    }
+
+    public function getCategory(): ?Category{ // get the category associated with the product
+        if($this->category === null){
+            global $pdo; // Use the global $pdo instance
+
+            $sql = "SELECT * FROM category WHERE id = :category_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':category_id', $this->category_id, PDO::PARAM_INT);
+            $stmt->execute();
+
+            $categaryData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($categoryData){
+                $this->category = new Category(
+                    $categoryData['id'],
+                    $categoryData['name'],
+                    $categoryData['description'],
+                    new DateTime($categoryData['createdAt']),
+                    new DateTime($categoryData['updatedAt'])
+                );
+            } else {
+                $this->category = null; // No category found
+            }
+        }
+        return $this->category;
     }
 
 
