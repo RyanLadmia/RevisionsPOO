@@ -95,24 +95,26 @@ class Product{
 } // Class Product closed
 
 // Class Product test
+// Creating an instance of the product
 $product = new Product(1, "Laptop", ["photoLaptop.jpg"], 1500, "A high-performance laptop", 10, new DateTime('now'), new DateTime('now'));
 
 // Use of getters
-var_dump($product->getId());
-var_dump($product->getName());
-var_dump($product->getPhotos());
-var_dump($product->getPrice());
-var_dump($product->getDescription());
-var_dump($product->getQuantity());
-var_dump($product->getCreatedAt());
-var_dump($product->getUpdatedAt());
+var_dump($product->getId());echo '<br>';
+var_dump($product->getName());echo '<br>';
+var_dump($product->getPhotos());echo '<br>';
+var_dump($product->getPrice());echo '<br>';
+var_dump($product->getDescription());echo '<br>';
+var_dump($product->getQuantity());echo '<br>';
+var_dump($product->getCreatedAt());echo '<br>';
+var_dump($product->getUpdatedAt());echo '<br><br>';
 
 // Use of setters
 $product->setPrice(1200);
 $product->setQuantity(9);
 
 // Modifications checking :
-var_dump($product->getPrice());
+    echo "changes :<br>";
+var_dump($product->getPrice());echo '<br>';
 var_dump($product->getQuantity())
 
 ?>
