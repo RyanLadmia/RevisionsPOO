@@ -1,6 +1,19 @@
 <?php
 
-// JOB-03 + JOB-03.1
+// Connection to database
+$host = 'localhost';
+$dbname = 'draft-shop';
+$username = 'root';
+$password = '';
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("Erreur de connexion : " . $e->getMessage());
+}
+
+
 
 // Class Product :
 class Product{
@@ -242,4 +255,49 @@ var_dump($product2->getQuantity());echo '<br>';
 var_dump($product2->getCategoryId()); echo '<br><br><br>';
 
 
+// Request to retrieve the product with id 7
+$id = 7;
+$sql = "SELECT * FROM product WHERE id = :id";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':id', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+
+// Retrieve product data in the form of an associative array
+$productData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($productData) {
+    echo "Product successfully found !<br>";
+} else {
+    die("No products found with id $id.");
+}
+
+
+// Hydrate a new instance of the Product class with data from the database
+if ($productData) {
+    $product = new Product(
+        $productData['id'],
+        $productData['name'],
+        explode(',', $productData['photos']),
+        $productData['price'],
+        $productData['description'],
+        $productData['quantity'],
+        new DateTime($productData['createdAt']),
+        new DateTime($productData['updatedAt']),
+        $productData['category_id']
+    );
+
+    // Viewing product data to verify everything is working
+    echo "ID du produit : " . $product->getId() . "<br>";
+    echo "Nom du produit : " . $product->getName() . "<br>";
+    echo "Photos du produit : " . implode(", ", $product->getPhotos()) . "<br>";
+    echo "Prix du produit : " . $product->getPrice() . "<br>";
+    echo "Description du produit : " . $product->getDescription() . "<br>";
+    echo "Quantité du produit : " . $product->getQuantity() . "<br>";
+    echo "Date de création : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Dernière mise à jour : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "ID de la catégorie : " . $product->getCategoryId() . "<br>";
+}
 ?>
+
+
