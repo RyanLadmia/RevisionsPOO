@@ -148,7 +148,7 @@ class Product{
     }
 
     // Method to find a product by ID
-    public function findById(int $id){
+    public static function findOneById(int $id){
         global $pdo;
 
         $sql = "SELECT * FROM product WHERE id = :id";
@@ -409,12 +409,17 @@ if (empty($product)) {
 $product = Product::findOneById(6);
 
 if($product){
-    echo "Product name : ". $product->getName();
-    // Mettre les infos !!!!!
+    echo "Function findOneById:<br>";
+    echo "Product name : ". $product->getName()."<br>";
+    echo "Product photos : " . implode(", ", $product->getPhotos()) . "<br>";
+    echo "Product price : ". $product->getPrice()."<br>";
+    echo "Product description : ". $product->getdescription()."<br>";
+    echo "Product quantity : ". $product->getQuantity()."<br>";
+    echo "Product created at : " . $product->getCreatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product updated at : " . $product->getUpdatedAt()->format('Y-m-d H:i:s') . "<br>";
+    echo "Product category ID : ". $product->getCategoryId()."<br>";
 } else {
     echo "No product found with this ID.";
 }
 
 ?>
-
-
