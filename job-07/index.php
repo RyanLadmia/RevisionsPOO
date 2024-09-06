@@ -147,6 +147,35 @@ class Product{
         $this->category_id = $category_id;
     }
 
+    // Method to find a product by ID
+    public function findById(int $id){
+        global $pdo;
+
+        $sql = "SELECT * FROM product WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $productData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($productData){
+            return new Product(
+                $productData['id'],
+                $productData['name'],
+                explode(',', $productData['photos']),
+                (int)$productData['price'],
+                $productData['description'],
+                (int)$productData['quantity'],
+                new DateTime($productData['createdAt']),
+                new DateTime($productData['updatedAt']),
+                (int)$productData['category_id']
+            );
+        } else{
+            return false;
+        }
+
+    }
+
 } // Class Product closed
 
 
@@ -376,6 +405,16 @@ if (empty($product)) {
         echo "Product price : " . $product->getPrice() . "<br><br>";
     }
 }
+
+$product = Product::findOneById(6);
+
+if($product){
+    echo "Product name : ". $product->getName();
+    // Mettre les infos !!!!!
+} else {
+    echo "No product found with this ID.";
+}
+
 ?>
 
 
